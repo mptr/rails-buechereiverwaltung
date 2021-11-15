@@ -1,0 +1,16 @@
+= form_for @book_instance do |f|
+  = render 'components/error', errors: @book_instance.errors
+
+  %table.table.table-striped
+    %tr.form-group
+      %td= f.label :book_id, "Buchtitel", class: "control-label"
+      %td= f.select :book_id, options_from_collection_for_select(Book.all, "id", "title", @book_instance.book_id), {}, {class: "form-control searchselect", :data => {"live-search": "true"}}
+    %tr.form-group
+      %td= f.label :shelfmark, "Regal", class: "control-label"
+      %td= f.text_field :shelfmark, class: "form-control"
+    %tr.form-group
+      %td= f.label :purchased_at, "Einkaufsdatum", class: "control-label"
+      %td= f.date_field :purchased_at, class: "form-control"
+    %tr
+      %td
+      %td= f.submit "Speichern", class: "btn btn-success"

@@ -1,0 +1,240 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, or any plugin's
+ * vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any other CSS/SCSS
+ * files in this directory. Styles in this file should be added after the last require_* statement.
+ * It is generally better to create a new file per style scope.
+ *
+ *= require_tree .
+ *= require_self
+ *= require material_icons
+ */
+
+/* ### NOTICE ### */
+#shadow {
+    display: none; // hides notice template
+}
+
+/* ### NAV ### */
+#sidebar {
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    justify-content: space-between;
+    dl.account {
+        dl dd {
+            background: #0002;
+            &:hover { background: #0001; }
+        }
+        dt {
+            background: #0003;
+            text-align: right;
+            &:after {
+                right: unset;
+                left: .9em;
+                transform: rotate(0deg) !important;
+                font-family: 'Material Icons';
+                content: 'person';
+            }
+        }
+    }
+    dt, dd {
+        cursor: pointer;
+        padding: 1em 1.2em;
+        transition: ease 450ms;
+        font-size: 1.1em;
+        position: relative;
+    }
+    dd {
+        background-color: #00000022; 
+        padding: .7em 2em;
+        &:hover { background-color: #ffffff11; }
+    }
+    dt {
+        &[data-toggle='collapse']:after { content: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='rgba%28255,255,255,.8%29' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M5 14l6-6-6-6'/%3e%3c/svg%3e"); }
+        &:after {
+            position: absolute;
+            right: 1em;
+            font-size: 1.4em;
+            top: 12px;
+            transform: rotate(180deg);
+            transition: ease 300ms;
+        }
+        &[aria-expanded='true']:after {
+            transform: rotate(90deg);
+        }
+        &:hover { background-color: #ffffff22; }
+    }
+    a {
+        color: #fff;
+        text-decoration: none;
+    }
+    * { margin: 0; }
+}
+/* Icons */
+.material-icons, .mi {
+    vertical-align: middle;
+    margin-top: -4px;
+    margin-bottom: -2px;
+}
+/* Buttons */
+.btn-group .btn {
+    padding: .4em .6em;
+}
+*:not(.btn-group) > .btn {
+    margin-right: .5em;
+    i { margin-right: .2em; margin-left: -.2em }
+}
+a {
+    color: #3e5ca3;
+    &:hover { color: #1f4bb1; text-decoration: underline }
+}
+/* Table */
+table.dataTable {
+    .btn-group {
+        float: right;
+        .disabled {
+            pointer-events: unset;
+            cursor: default;
+        }
+        .tooltip {
+            pointer-events: none;
+        }
+    }
+    thead .sorting {
+        background-image: unset !important;
+    }
+}
+/* Panels */
+.panel {
+    .dataTables_wrapper, .panel > .dataTable {
+        padding: 15px;
+        overflow-x: auto;
+    }
+    h1, h2, h3, h4, h5 {
+        margin: 0;
+        margin-bottom: -.1em;
+    }
+    &.slim {
+        border-color: #e6e9ed;
+        width: fit-content;
+        min-width: 30%;
+    }
+    .badge {
+        font-size: .5em;
+        top: .3em;
+        float: right;
+        position: relative;
+        border-radius: 4em;
+    }
+}
+/* form */
+textarea {
+    width:100%;
+    resize:vertical;
+    min-height: 4em;
+}
+input[type='checkbox'].form-control {
+    width: initial;
+    height: initial;
+}
+form td:nth-child(1) { width: 16em; }
+.has-error .searchselect button { border-color: #da4453 !important; }
+.searchselect {
+    .btn-default {
+        color: #000 !important;
+        background-color: #fff !important;
+    }
+    .dropdown-menu {
+        * {
+            color: #000 !important;
+        }
+        &, * {
+            background: #fff !important;
+        }
+        a:hover {
+            background: #f6fbff !important;
+        }
+    }
+    .glyphicon-ok:before {
+        font-family: 'Material Icons';
+        content: "check";
+    }
+}
+/* notice */
+@keyframes slideIn {
+    from { right: -100%  }
+    to   { right:  1.5em }
+}
+@keyframes fadeOut {
+    from { opacity:1 }
+    to   { opacity:0;display: none }
+}
+.notice, .error_explanation {
+    animation: slideIn .5s ease-out forwards;
+    box-shadow: 2px 2px 7px 0px #aaa;
+    margin: 0;
+    position: fixed;
+    top: 1.5em;
+    right: 1.5em;
+    width: fit-content;
+    &.discard { animation: fadeOut .3s ease forwards; }
+    h5 {
+        margin: 0;
+        padding-right: 2em; 
+    }
+    p, a { margin-top: .7em; }
+}
+/* ################# GRID ################# */
+#grid {
+    display: grid;
+    grid-template-rows: 120px auto 5em;
+    grid-template-columns: 17em auto;
+    & > *:not(#sidebar) { padding: 1em; }
+    #main, #headline { padding: 2.5em; }
+    #main { overflow: auto; }
+    #sidebar {
+        min-height: calc(100vh - 120px - 5em);
+    }
+    #logo, #sidebar, #footer {
+        background-color: #434A54;
+        color: #fff;
+    }
+    #copy, #footer {
+        display: flex;
+        align-items: flex-end;
+    }
+    #copy {
+        justify-content: center;
+    }
+    #footer {
+        color: #aaa;
+        text-align: right;
+        justify-content: flex-end;
+        .label {
+            font-size: 1em;
+            padding: .5em;
+        }
+    }
+}
+
+/* ################# LOGO ################# */
+
+#logoheader {
+    padding: 1em;
+    max-width: 100%;
+    max-height: 100%;
+}
+
+/* ### TABLES ### */
+.btn-group { display: flex; }
+
+#headline {
+    h1 { margin: 0 0 .0em; }
+    hr { border-top: 2px solid #ddd; }
+}

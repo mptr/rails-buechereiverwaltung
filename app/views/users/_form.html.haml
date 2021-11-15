@@ -1,0 +1,28 @@
+= form_for @user do |f|
+  = render 'components/error', errors: @user.errors
+
+  %table.table.table-striped
+    %tr.form-group
+      %td= f.label :family_name, "Nachname", class: "control-label"
+      %td= f.text_field :family_name, class: "form-control"
+    %tr.form-group
+      %td= f.label :given_name, "Vorname", class: "control-label"
+      %td= f.text_field :given_name, class: "form-control"
+    %tr.form-group
+      %td= f.label :address, "Adresse", class: "control-label"
+      %td= f.text_area :address, class: "form-control"
+    %tr.form-group
+      %td= f.label :email, "E-Mail", class: "control-label"
+      %td= f.email_field :email, class: "form-control"
+    %tr.form-group
+      %td= f.label :password, "Passwort", class: "control-label"
+      %td= f.password_field :password, class: "form-control"
+    %tr.form-group
+      %td= f.label :blocked, "Sperrvermerk", class: "control-label"
+      %td= f.check_box :blocked, class: "form-control"
+    %tr.form-group
+      %td= f.label :remarks, "Kommentare", class: "control-label"
+      %td= f.text_area :remarks, class: "form-control"
+    %tr
+      %td
+      %td= f.submit "Speichern", class: "btn btn-success"

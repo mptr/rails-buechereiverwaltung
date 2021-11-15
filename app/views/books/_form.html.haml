@@ -1,0 +1,25 @@
+= form_for @book do |f|
+  = render 'components/error', errors: @book.errors
+
+  %table.table.table-striped
+    %tr.form-group
+      %td= f.label :title, "Buchtitel", class: "control-label"
+      %td= f.text_field :title, class: "form-control"
+    %tr.form-group
+      %td= f.label :publisher_id, "Verlag", class: "control-label"
+      %td= f.select :publisher_id, options_from_collection_for_select(Publisher.all, "id", "name", @book.publisher_id), {include_blank: true}, {class: "form-control searchselect", :data => {"live-search": "true"}}
+    %tr.form-group
+      %td= f.label :author_ids, "Autor", class: "control-label"
+      %td= f.select :author_ids, options_from_collection_for_select(Author.all, "id", "full_name", @book.authors.ids), {}, {:multiple => true, :include_hidden => false, class: "form-control searchselect", :data => {"live-search": "true"}}
+    %tr.form-group
+      %td= f.label :pub_year, "Veröffentlichungsjahr", class: "control-label"
+      %td= f.number_field :pub_year, class: "form-control"
+    %tr.form-group
+      %td= f.label :edition, "Edition", class: "control-label"
+      %td= f.number_field :edition, maximum: DateTime.now.year, class: "form-control"
+    %tr.form-group
+      %td= f.label :isbn, "ISBN", class: "control-label"
+      %td= f.text_field :isbn, class: "form-control"
+    %tr
+      %td
+      %td= f.submit "Speichern", class: "btn btn-success"

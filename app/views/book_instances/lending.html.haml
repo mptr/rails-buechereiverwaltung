@@ -1,0 +1,12 @@
+.panel.slim.panel-default
+  .panel-heading
+    %h3
+      Leihstatus setzen
+  = render 'form_lending'
+
+= link_to @book_instance, class: "button btn btn-warning" do
+  =material_icon.arrow_back 
+  Abbrechen
+= link_to book_instances_path, class: "button btn btn-default" do
+  =material_icon.format_list_bulleted 
+  Liste

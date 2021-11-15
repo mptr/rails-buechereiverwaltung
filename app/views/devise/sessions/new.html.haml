@@ -1,0 +1,21 @@
+.panel.slim.panel-default
+  .panel-heading
+    %h3
+      Login
+  = form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
+    %table.table.table-striped
+      %tr.form-group
+        %td= f.label :email, class: "control-label"
+        %td= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control"
+      %tr.form-group
+        %td= f.label :password, class: "control-label"
+        %td= f.password_field :password, autocomplete: "current-password", class: "form-control"
+      - if devise_mapping.rememberable?
+        %tr.form-group
+          %td= f.label :remember_me, class: "control-label"
+          %td= f.check_box :remember_me, class: "form-control"
+      %tr
+        %td
+        %td
+          = f.submit "Login", class: "btn btn-success"
+          = render "devise/shared/links"

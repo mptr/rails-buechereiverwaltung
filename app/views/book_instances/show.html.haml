@@ -1,0 +1,67 @@
+.panel.slim.panel-default
+  .panel-heading
+    %h3
+      Buchexemplar
+  %table.table.table-striped
+    %tr
+      %td Buchtitel:
+      %td= link_to @book_instance.book.title, @book_instance.book
+    %tr
+      %td Regal:
+      %td= @book_instance.shelfmark
+    %tr
+      %td Einkaufsdatum:
+      %td= @book_instance.purchased_at&.strftime("%d.%m.%Y")
+    %tr
+      %td Ausgeliehen von:
+      -# TODO Names only for admin visible
+      %td
+        - if !@book_instance.lender.blank?
+          - if current_user&.admin?
+            = link_to @book_instance.lender.full_name, @book_instance.lender
+          - elsif user_signed_in?
+            = @book_instance.lender.short_name
+          - else
+            %i ***
+        - else
+          %i Nicht ausgeliehen
+    %tr
+      %td Reserviert von:
+      -# TODO Names only for admin visible
+      %td
+        - if !@book_instance.reserver.blank?
+          - if current_user&.admin?
+            = link_to @book_instance.reserver.full_name, @book_instance.reserver
+          - elsif user_signed_in?
+            = @book_instance.reserver.short_name
+          - else
+            %i ***
+        - else
+          %i Nicht reserviert
+    %tr
+      %td Geliehen am:
+      %td= @book_instance.checkout_at&.strftime("%d.%m.%y %H:%M")
+    %tr
+      %td Rückgabefrist bis:
+      %td= @book_instance.due_at&.strftime("%d.%m.%y")
+    %tr
+      %td Rückgabe am:
+      %td= @book_instance.returned_at&.strftime("%d.%m.%y %H:%M")
+
+%br
+
+= render 'components/lend_onebutton', bookinstance: @book_instance, withtext: true
+
+- if current_user&.admin?
+  = link_to lending_book_instance_path(@book_instance), class: "button btn" do
+    =material_icon.person
+    Leihstatus setzen
+  = link_to edit_book_instance_path(@book_instance), class: "button btn btn-warning" do
+    =material_icon.edit 
+    Bearbeiten
+  = link_to @book_instance, method: :delete, data: { confirm: 'Sind Sie sicher?' }, class: "button btn btn-danger" do
+    =material_icon.delete
+    Löschen
+= link_to book_instances_path, class: "button btn btn-default" do
+  =material_icon.arrow_back 
+  Zurück

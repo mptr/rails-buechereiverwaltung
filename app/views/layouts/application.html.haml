@@ -1,0 +1,107 @@
+!!!
+%html{ lang: 'de' }
+  %head
+    %meta{ content: 'text/html; charset=UTF-8', 'http-equiv' => 'Content-Type' }/
+    %title WBA-Übung 7
+    %meta{ content: 'width=device-width,initial-scale=1', name: 'viewport' }/
+    %meta{ content: 'NOINDEX, NOFOLLOW', name: 'ROBOTS' }/
+    = csrf_meta_tags
+    = csp_meta_tag
+    = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
+    = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
+  %body
+    #grid
+      #logo(data-turbolinks-permanent)
+        %a{ :href => 'http://hs-rm.de' }
+          %img{ :src => asset_path('hs-rm_white.svg'), :alt => 'Logo der HSRM', :id => 'logoheader' }
+      #headline(data-turbolinks-permanent)
+        %h1 WBA-Praktikum 07
+        %hr
+      #sidebar(data-turbolinks-permanent)
+        %dl.top-nav
+          %dl
+            %dt{ :data => {:toggle => "collapse", :target => "#nav_authors"} } Autoren
+            %dl.collapse#nav_authors
+              = link_to authors_path do
+                %dd alle
+              = link_to authors_path(filter: 'no_books') do
+                %dd ohne Buch
+          %dl
+            %dt{ :data => {:toggle => "collapse", :target => "#nav_books"} } Bücher
+            %dl.collapse#nav_books
+              = link_to books_path do
+                %dd alle
+              = link_to books_path(filter: 'no_author') do
+                %dd ohne Autoren
+              = link_to books_path(filter: 'no_stock') do
+                %dd ohne Buchbestand
+          %dl
+            %dt{ :data => {:toggle => "collapse", :target => "#nav_instances"} } Buchbestestand
+            %dl.collapse#nav_instances
+              = link_to book_instances_path do
+                %dd Gesamtbestand
+              = link_to book_instances_path(filter: 'lendable') do
+                %dd ausleihbar
+              = link_to book_instances_path(filter: 'reserved') do
+                %dd reserviert
+              = link_to book_instances_path(filter: 'lended') do
+                %dd ausgeliehen
+              = link_to book_instances_path(filter: 'overdue') do
+                %dd überfällig
+          %dl
+            %dt{ :data => {:toggle => "collapse", :target => "#nav_publishers"} } Verlage
+            %dl.collapse#nav_publishers
+              = link_to publishers_path do
+                %dd alle
+              = link_to publishers_path(filter: 'no_books') do
+                %dd ohne Bücher
+          - if current_user&.admin
+            %dl
+              %dt{ :data => {:toggle => "collapse", :target => "#nav_users"} } Nutzer
+              %dl.collapse#nav_users
+                = link_to users_path do
+                  %dd alle
+                = link_to users_path(filter: 'has_reservations') do
+                  %dd mit Reservierungen
+                = link_to users_path(filter: 'has_lendings') do
+                  %dd mit Ausleihen
+                = link_to users_path(filter: 'has_overdue') do
+                  %dd mit überfälligen Büchern
+        %dl.bottom-nav
+          %dl.account
+            - if user_signed_in?
+              %dt{ :data => {:toggle => "collapse", :target => "#nav_session"} }
+                = current_user.given_name
+                - if current_user.blocked?
+                  (Blockiert) 
+              %dl.collapse#nav_session
+                = link_to book_instances_path(filter: 'lended_by_current_user') do
+                  %dd ausgeliehene Bücher
+                = link_to book_instances_path(filter: 'reserved_by_current_user') do
+                  %dd reservierte Bücher
+                = link_to destroy_user_session_path, method: :delete do
+                  %dd Abmelden
+                = link_to edit_user_registration_path do
+                  %dd Mein Konto
+            - else
+              = link_to new_user_session_path do
+                %dt Anmelden
+
+      #main
+        = render 'components/notice', text: notice
+        = render 'components/notice', text: alert, warning: true
+        = yield
+      #footer
+        - if current_user&.admin
+          %span.label.label-danger
+            ⚠️ als Admin angemeldet
+        - else
+          %br/
+          Webbasierte Anwendungen
+          %br/
+          Sommersemester 2021
+      #copy 
+        &copy; Daniel Baier, Marvin Peter
+    #shadow
+      .noticetemplate
+        = render 'components/notice', text: "%MESSAGE%"

@@ -1,0 +1,13 @@
+- errors = local_assigns.fetch(:errors)
+- if errors.any?
+  .alert.alert-danger.error_explanation
+    %h5 Fehler!
+    %p
+      ="Speichern wurde durch #{errors.count} Fehler verhindert:"
+      %br
+      %ul
+        - errors.full_messages.each do |message|
+          %li= message
+    %a.btn.btn-danger
+      = material_icon.check
+      OK

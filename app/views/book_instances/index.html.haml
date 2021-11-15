@@ -1,0 +1,64 @@
+.panel.panel-default
+  .panel-heading
+    %h3
+      Buchbestand
+      %span.small
+        = @filter_name
+      %span.badge= @book_instances.length
+  %table.dataTable.table.table-striped
+    %thead
+      %tr
+        %th Buchtitel
+        %th Regal
+        %th Einkaufsdatum
+        %th Geliehen von
+        %th Reserviert von
+        %th Ausgeliehen am
+        %th Rückgabefrist bis
+        %th Rückgabe am
+        %th{ "data-orderable": "false" }
+
+    %tbody
+      - @book_instances.each do |book_instance|
+        %tr
+          %td= link_to book_instance.book.title, book_instance.book
+          %td= book_instance.shelfmark
+          =td_date(book_instance.purchased_at, false)
+          %td
+            - if !book_instance.lender.blank?
+              - if current_user&.admin?
+                = link_to book_instance.lender.full_name, book_instance.lender
+              - elsif user_signed_in?
+                = book_instance.lender.short_name
+              - else
+                ***
+            - else
+              \-
+          %td
+            - if !book_instance.reserver.blank?
+              - if current_user&.admin?
+                = link_to book_instance.reserver.full_name, book_instance.reserver
+              - elsif user_signed_in?
+                = book_instance.reserver.short_name
+              - else
+                ***
+            - else
+              \-
+          =td_date(book_instance.checkout_at)
+          =td_date(book_instance.due_at, false)
+          =td_date(book_instance.returned_at)
+          %td
+            .btn-group
+              = link_to material_icon.open_in_new, book_instance, class: "button btn btn-default"
+              = render 'components/lend_onebutton', bookinstance: book_instance
+              - if current_user&.admin?
+                = link_to material_icon.edit, edit_book_instance_path(book_instance), class: "button btn btn-warning"
+                = link_to material_icon.delete, book_instance, method: :delete, data: { confirm: 'Sind Sie sicher?' }, class: "button btn btn-danger"
+
+%br
+
+
+- if current_user&.admin?
+  = link_to new_book_instance_path, class: "button btn btn-info" do
+    =material_icon.add 
+    Neues Buchexemplar

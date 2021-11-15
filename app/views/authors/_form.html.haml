@@ -1,0 +1,16 @@
+= form_for @author do |f|
+  = render 'components/error', errors: @author.errors
+
+  %table.table.table-striped
+    %tr.form-group
+      %td= f.label :family_name, "Nachname", class: "control-label"
+      %td= f.text_field :family_name, class: "form-control"
+    %tr.form-group
+      %td= f.label :given_name, "Vorname", class: "control-label"
+      %td= f.text_field :given_name, class: "form-control"
+    %tr.form-group
+      %td= f.label :affiliation, "Zugehörigkeit", class: "control-label"
+      %td= f.text_area :affiliation, class: "form-control"
+    %tr
+      %td
+      %td= f.submit "Speichern", class: "btn btn-success"

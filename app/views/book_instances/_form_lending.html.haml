@@ -1,0 +1,28 @@
+= form_for @book_instance do |f|
+  = render 'components/error', errors: @book_instance.errors
+
+  %table.table.table-striped
+    %tr.form-group
+      %td= f.label nil, "Buchtitel", class: "control-label"
+      %td= f.text_field nil, class: "form-control", value: @book_instance.book.title, disabled:true
+    %tr.form-group
+      %td= f.label nil, "Regal", class: "control-label"
+      %td= f.text_field nil, class: "form-control", value: @book_instance.shelfmark, disabled:true
+    %tr.form-group
+      %td= f.label :lended_by_id, "Ausgeliehen von", class: "control-label"
+      %td= f.select :lended_by_id, options_from_collection_for_select(User.all, "id", "full_name", @book_instance.lended_by_id.nil? ? '' : @book_instance.lended_by_id), {include_blank: true}, {class: "form-control searchselect", :data => {"live-search": "true"}}
+    %tr.form-group
+      %td= f.label :reserved_by_id, "Reserviert von", class: "control-label"
+      %td= f.select :reserved_by_id, options_from_collection_for_select(User.all, "id", "full_name", @book_instance.reserved_by_id.nil? ? '' : @book_instance.reserved_by_id), {include_blank: true}, {class: "form-control searchselect", :data => {"live-search": "true"}}
+    -#%tr.form-group
+      %td= f.label nil, "Geliehen am", class: "control-label"
+      %td= f.datetime_field :checkout_at, class: "form-control", :value => @book_instance.checkout_at&.strftime("%FT%H:%M")
+    %tr.form-group
+      %td= f.label nil, "Rückgabefrist bis", class: "control-label"
+      %td= f.date_field :due_at, class: "form-control"
+    -#%tr.form-group
+      %td= f.label nil, "Rückgabe am", class: "control-label"
+      %td= f.datetime_field :returned_at, class: "form-control", :value => @book_instance.returned_at&.strftime("%FT%H:%M")
+    %tr
+      %td
+      %td= f.submit "Speichern", class: "btn btn-success"

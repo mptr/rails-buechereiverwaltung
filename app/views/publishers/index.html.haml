@@ -1,0 +1,32 @@
+.panel.panel-default
+  .panel-heading
+    %h3
+      Verlage
+      %span.small
+        = @filter_name
+      %span.badge= @publishers.length
+  %table.dataTable.table.table-striped
+    %thead
+      %tr
+        %th Name
+        %th Adresse
+        %th{ "data-orderable": "false" }
+
+    %tbody
+      - @publishers.each do |publisher|
+        %tr
+          %td= publisher.name
+          %td= publisher.address
+          %td
+            .btn-group
+              = link_to material_icon.open_in_new, publisher, class: "button btn btn-default"
+              - if current_user&.admin?
+                = link_to material_icon.edit, edit_publisher_path(publisher), class: "button btn btn-warning"
+                = link_to material_icon.delete, publisher, method: :delete, data: { confirm: 'Sind Sie sicher?' }, class: "button btn btn-danger"
+
+%br
+
+- if current_user&.admin?
+  = link_to new_publisher_path, class: "button btn btn-info" do
+    =material_icon.add 
+    Neuer Verlag

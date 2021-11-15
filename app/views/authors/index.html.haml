@@ -1,0 +1,36 @@
+.panel.panel-default
+  .panel-heading
+    %h3
+      Autoren
+      %span.small
+        = @filter_name
+      %span.badge= @authors.length
+  %table.dataTable.table.table-striped
+    %thead
+      %tr
+        %th Nachname
+        %th Vorname
+        %th Zugehörigkeit
+        %th Anzahl Bücher
+        %th{ "data-orderable": "false" }
+
+    %tbody
+      - @authors.each do |author|
+        %tr
+          %td= author.family_name
+          %td= author.given_name
+          %td= author.affiliation
+          %td= author.books.count
+          %td
+            .btn-group
+              = link_to material_icon.open_in_new, author, class: "button btn btn-default"
+              - if current_user&.admin?
+                = link_to material_icon.edit, edit_author_path(author), class: "button btn btn-warning"
+                = link_to material_icon.delete, author, method: :delete, data: { confirm: 'Sind Sie sicher?' }, class: "button btn btn-danger"
+
+%br
+
+- if current_user&.admin?
+  = link_to new_author_path, class: "button btn btn-info" do
+    =material_icon.add 
+    Neuer Autor

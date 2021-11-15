@@ -1,0 +1,60 @@
+.panel.slim.panel-default
+  .panel-heading
+    %h3
+      Autor
+  %table.table.table-striped
+    %tr
+      %td Nachname:
+      %td= @author.family_name
+    %tr
+      %td Vorname:
+      %td= @author.given_name
+    %tr
+      %td Zugehörigkeit:
+      %td= @author.affiliation
+
+-# if !@author.books.empty?
+.panel.panel-default
+  .panel-heading
+    %h3
+      Bücher
+      %span.small
+        von
+        = @author.short_name
+      %span.badge= @author.books.length
+  %table.dataTable.table.table-striped
+    %thead
+      %tr
+        %th Title
+        %th Publisher
+        %th Pub year
+        %th Edition
+        %th Isbn
+        %th Copies
+        %th{ "data-orderable": "false" }
+
+    %tbody
+      - @author.books.each do |book|
+        %tr
+          %td= book.title
+          %td= link_to book.publisher.name, book.publisher
+          %td= book.pub_year
+          %td= book.edition
+          %td= book.isbn
+          %td= book.book_instances.count
+          %td
+            .btn-group
+              = link_to material_icon.open_in_new, book, class: "button btn btn-default"
+
+%br
+
+- if current_user&.admin?
+  = link_to edit_author_path(@author), class: "button btn btn-warning" do
+    =material_icon.edit 
+    Bearbeiten
+  = link_to @author, method: :delete, data: { confirm: 'Sind Sie sicher?' }, class: "button btn btn-danger" do
+    =material_icon.delete
+    Löschen
+= link_to authors_path, class: "button btn btn-default" do
+  =material_icon.arrow_back 
+  Zurück

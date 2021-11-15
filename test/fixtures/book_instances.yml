@@ -1,0 +1,21 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  book: one
+  shelfmark: MyString
+  purchased_at: 2021-06-27
+  lended_by: one
+  reserved_by: one
+  checkout_at: 2021-06-27 18:13:04
+  due_at: 2021-06-27
+  returned_at: 2021-06-27 18:13:04
+
+two:
+  book: two
+  shelfmark: MyString
+  purchased_at: 2021-06-27
+  lended_by: two
+  reserved_by: two
+  checkout_at: 2021-06-27 18:13:04
+  due_at: 2021-06-27
+  returned_at: 2021-06-27 18:13:04

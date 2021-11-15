@@ -1,0 +1,9 @@
+.panel.slim.panel-default
+  .panel-heading
+    %h3
+      Neuer Autor
+  = render 'form'
+
+= link_to authors_path, class: "button btn btn-warning" do
+  =material_icon.arrow_back 
+  Abbrechen

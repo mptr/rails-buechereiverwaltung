@@ -1,0 +1,8 @@
+- text = local_assigns.fetch(:text)
+- warning = local_assigns.fetch(:warning, false)
+- if !text.blank?
+  .alert.notice{ class: (warning ? "alert-danger" : "alert-success") }
+    %h5= text
+    %a.btn{ class: (warning ? "btn-danger" : "btn-success") }
+      = material_icon.check
+      OK

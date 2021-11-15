@@ -1,0 +1,42 @@
+.panel.panel-default
+  .panel-heading
+    %h3
+      Bücher
+      %span.small
+        = @filter_name
+      %span.badge= @books.count
+  %table.dataTable.table.table-striped
+    %thead
+      %tr
+        %th Titel
+        %th Verlag
+        %th Veröffentlichungsjahr
+        %th Edition
+        %th ISBN
+        %th Autoren
+        %th Exemplare
+        %th{ "data-orderable": "false" }
+
+    %tbody
+      - @books.each do |book|
+        %tr
+          %td= book.title
+          %td= link_to book.publisher.name, book.publisher
+          %td= book.pub_year
+          %td= book.edition
+          %td= book.isbn
+          %td= book.authors.count
+          %td= book.book_instances.count
+          %td
+            .btn-group
+              = link_to material_icon.open_in_new, book, class: "button btn btn-default"
+              - if current_user&.admin?
+                = link_to material_icon.edit, edit_book_path(book), class: "button btn btn-warning"
+                = link_to material_icon.delete, book, method: :delete, data: { confirm: 'Sind Sie sicher?' }, class: "button btn btn-danger"
+
+%br
+
+- if current_user&.admin?
+  = link_to new_book_path, class: "button btn btn-info" do
+    =material_icon.add 
+    Neues Buch

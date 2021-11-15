@@ -1,0 +1,1 @@
+Rack::MiniProfiler.config.start_hidden = true # can be shown by pressing Alt+P in the Browser

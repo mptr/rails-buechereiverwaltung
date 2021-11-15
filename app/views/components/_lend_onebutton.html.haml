@@ -1,0 +1,30 @@
+- bookinstance = local_assigns.fetch(:bookinstance)
+- withtext = local_assigns.fetch(:withtext, false)
+
+- if user_signed_in?
+  - @do_tt = (withtext ? "" : "tooltip")
+  - if bookinstance.lender.blank? and (bookinstance.reserver.blank? or bookinstance.reserver&.id == current_user.id) and !current_user.blocked? # lendable
+    %a.button.btn.btn-primary.oneClick{:data => {:clickid => bookinstance.id, :clickaction => "lend", :toggle => @do_tt, :placement => "left", :original => {:title => "Ausleihen"}}}
+      =material_icon.book
+      = "Ausleihen" if withtext
+  - elsif bookinstance.lended_by_id == current_user.id # returnable
+    %a.button.btn.btn-primary.oneClick{:data => {:clickid => bookinstance.id, :clickaction => "return", :toggle => @do_tt, :placement => "left", :original => {:title => "Zurückgeben"}}}
+      =material_icon.reply
+      = "Zurückgeben" if withtext
+  - else
+    %a.button.btn.btn-primary.disabled{:data => {:toggle => @do_tt, :placement => "left", :original => {:title => "nicht ausleihbar"}}}
+      =material_icon.book
+      = "nicht ausleihbar" if withtext
+  
+  - if bookinstance.reserver.blank? # reservable
+    %a.button.btn.btn-info.oneClick{:data => {:clickid => bookinstance.id, :clickaction => "reserve", :toggle => @do_tt, :placement => "left", :original => {:title => "Reservieren"}}}
+      =material_icon.event_available
+      = "Reservieren" if withtext
+  - elsif bookinstance.reserved_by_id == current_user.id # dereservable
+    %a.button.btn.btn-info.oneClick{:data => {:clickid => bookinstance.id, :clickaction => "dereserve", :toggle => @do_tt, :placement => "left", :original => {:title => "Reservierung löschen"}}}
+      =material_icon.event_busy
+      = "Reservierung löschen" if withtext
+  - else
+    %a.button.btn.btn-info.disabled{:data => {:toggle => @do_tt, :placement => "left", :original => {:title => "nicht reservierbar"}}}
+      =material_icon.event_available
+      = "nicht reservierbar" if withtext

@@ -1,0 +1,41 @@
+.panel.panel-default
+  .panel-heading
+    %h3
+      Nutzer
+      %span.small
+        = @filter_name
+      %span.badge= @users.length
+  %table.dataTable.table.table-striped
+    %thead
+      %tr
+        %th Nachname
+        %th Vorname
+        %th Adresse
+        %th Email
+        %th Sperrvermerk
+        %th Kommentare
+        %th{ "data-orderable": "false" }
+
+
+    %tbody
+      - @users.each do |user|
+        %tr
+          %td= user.family_name
+          %td= user.given_name
+          %td= user.address
+          %td= user.email
+          %td= user.blocked? ? (material_icon.block) : ''
+          %td= user.remarks
+          %td
+            .btn-group
+              = link_to material_icon.open_in_new, user, class: "button btn btn-default"
+              - if current_user&.admin?
+                = link_to material_icon.edit, edit_user_path(user), class: "button btn btn-warning"
+                = link_to material_icon.delete, user, method: :delete, data: { confirm: 'Sind Sie sicher?' }, class: "button btn btn-danger"
+
+%br
+
+- if current_user&.admin?
+  = link_to new_user_path, class: "button btn btn-info" do
+    =material_icon.add 
+    Neuer Nutzer
